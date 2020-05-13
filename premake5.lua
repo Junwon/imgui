@@ -1,6 +1,8 @@
 project "imgui"
 	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -21,8 +23,13 @@ project "imgui"
 
 	filter "system:windows"
 		systemversion "latest"
-		cppdialect "C++17"
-		staticruntime "On"
+		
+	filter "configurations:Debug"
+		defines "TINKER_DEBUG"
+		runtime "Debug"
+		symbols "on"
 
-	filter { "system:windows", "configurations:Release" }
-        buildoptions "/MT"
+	filter "configurations:Release"
+		defines "TINKER_RELEASE"
+		runtime "Release"
+		optimize "on"
